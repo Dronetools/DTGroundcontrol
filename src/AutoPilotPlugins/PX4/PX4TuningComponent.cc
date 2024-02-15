@@ -25,7 +25,7 @@ QString PX4TuningComponent::name(void) const
 
 QString PX4TuningComponent::description(void) const
 {
-    return tr("Tuning Setup is used to tune the flight controllers.");
+    return tr("PX4 Tuning Setup is used to tune the flight controllers.");
 }
 
 QString PX4TuningComponent::iconResource(void) const

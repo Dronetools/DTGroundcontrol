@@ -81,6 +81,7 @@ Rectangle {
             panelLoader.setSourceComponent(messagePanelComponent)
         } else {
             panelLoader.setSource(vehicleComponent.setupSource, vehicleComponent)
+            console.log(vehicleComponent.setupSource.toString())
             for(var i = 0; i < componentRepeater.count; i++) {
                 var obj = componentRepeater.itemAt(i);
                 if (obj.text === vehicleComponent.name) {
@@ -105,6 +106,10 @@ Rectangle {
         if (panelButtonName === parametersButton.text) {
             parametersButton.clicked()
         }
+    }
+
+    function showJustSensorsPanel(vehicleComponent){
+        return vehicleComponent.name.toLowerCase() === "sensors"
     }
 
     Component.onCompleted: _showSummaryPanel()
@@ -284,7 +289,8 @@ Rectangle {
                     setupComplete:      modelData.setupComplete
                     buttonGroup:     setupButtonGroup
                     text:               modelData.name
-                    visible:            modelData.setupSource.toString() !== ""
+                    //visible:            modelData.setupSource.toString() !== ""
+                    visible:            showJustSensorsPanel(modelData)
                     Layout.fillWidth:   true
                     onClicked:          showVehicleComponentPanel(componentUrl)
 

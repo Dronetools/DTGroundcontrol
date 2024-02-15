@@ -26,7 +26,7 @@ QString APMTuningComponent::name(void) const
 
 QString APMTuningComponent::description(void) const
 {
-    return tr("Tuning Setup is used to tune the flight characteristics of the Vehicle.");
+    return tr("APM Tuning Setup is used to tune the flight characteristics of the Vehicle.");
 }
 
 QString APMTuningComponent::iconResource(void) const

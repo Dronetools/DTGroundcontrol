@@ -302,7 +302,8 @@ ApplicationWindow {
                             text:               qsTr("Analyze Tools")
                             imageResource:      "/qmlimages/Analyze.svg"
                             imageColor:         qgcPal.text
-                            visible:            QGroundControl.corePlugin.showAdvancedUI
+                            //visible:            QGroundControl.corePlugin.showAdvancedUI
+                            visible:            false
                             onClicked: {
                                 if (!mainWindow.preventViewSwitch()) {
                                     mainWindow.closeIndicatorDrawer()
