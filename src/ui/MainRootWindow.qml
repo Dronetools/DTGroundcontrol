@@ -688,6 +688,7 @@ ApplicationWindow {
     //-- Indicator Drawer
 
     function showIndicatorDrawer(drawerComponent, indicatorItem) {
+        if(indicatorItem instanceof FlightModeIndicator) return
         indicatorDrawer.sourceComponent = drawerComponent
         indicatorDrawer.indicatorItem = indicatorItem
         indicatorDrawer.open()
