@@ -665,7 +665,7 @@ SetupPage {
                         width:          _buttonWidth
                         text:           qsTr("Accelerometer")
                         indicatorGreen: !accelCalNeeded
-
+                        visible: false
                         onClicked: function () {
                             showOrientationsDialog(_calTypeAccel);
                             showSimpleAccelCalOption();
@@ -691,7 +691,7 @@ SetupPage {
                         text:   _levelHorizonText
 
                         readonly property string _levelHorizonText: qsTr("Level Horizon")
-
+                        visible: false
                         onClicked: {
                             if (controller.accelSetupNeeded) {
                                 mainWindow.showMessageDialog(_levelHorizonText, qsTr("Accelerometer must be calibrated prior to Level Horizon."))
@@ -707,7 +707,8 @@ SetupPage {
                     QGCButton {
                         width:      _buttonWidth
                         text:       qsTr("Gyro")
-                        visible:    globals.activeVehicle && (globals.activeVehicle.multiRotor | globals.activeVehicle.rover | globals.activeVehicle.sub)
+                        //visible:    globals.activeVehicle && (globals.activeVehicle.multiRotor | globals.activeVehicle.rover | globals.activeVehicle.sub)
+                        visible: false
                         onClicked:  mainWindow.showMessageDialog(qsTr("Calibrate Gyro"),
                                                                  qsTr("For Gyroscope calibration you will need to place your vehicle on a surface and leave it still.\n\nClick Ok to start calibration."),
                                                                  Dialog.Cancel | Dialog.Ok,
@@ -717,6 +718,7 @@ SetupPage {
                     QGCButton {
                         width:      _buttonWidth
                         text:       _calibratePressureText
+                        visible: false
                         onClicked:  mainWindow.showMessageDialog(_calibratePressureText,
                                                                  qsTr("Pressure calibration will set the %1 to zero at the current pressure reading. %2").arg(_altText).arg(_helpTextFW),
                                                                  Dialog.Cancel | Dialog.Ok,
@@ -730,13 +732,15 @@ SetupPage {
                     QGCButton {
                         width:      _buttonWidth
                         text:       qsTr("CompassMot")
-                        visible:    globals.activeVehicle ? globals.activeVehicle.supportsMotorInterference : false
+                        visible: false
+                        //visible:    globals.activeVehicle ? globals.activeVehicle.supportsMotorInterference : false
                         onClicked:  compassMotDialogComponent.createObject(mainWindow).open()
                     }
 
                     QGCButton {
                         width:      _buttonWidth
                         text:       qsTr("Sensor Settings")
+                        visible: false
                         onClicked:  showOrientationsDialog(_calTypeSet)
                     }
                 } // Column - Cal Buttons
