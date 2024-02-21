@@ -37,6 +37,8 @@ Item {
     property bool   _showVoltage:       _indicatorDisplay.rawValue === 1
     property bool   _showBoth:          _indicatorDisplay.rawValue === 2
 
+    //Añadido label para que muestra mA consumidos
+    property bool   _showAll:           _indicatorDisplay.rawValue === 3
     Row {
         id:             batteryIndicatorRow
         anchors.top:    parent.top
@@ -119,6 +121,18 @@ Item {
                 return qsTr("n/a")
             }
 
+
+           //.mahConsumed.valueString + " " + object.mahConsumed.units
+           function getMahConsumedText() {
+               //console.log(`Mostrando: s${battery.mahConsumed.valueString + battery.mahConsumed.units}`)
+               if (!isNaN(battery.mahConsumed.rawValue)) {
+                   return battery.mahConsumed.valueString + battery.mahConsumed.units
+               } else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
+                   return battery.chargeState.enumStringValue
+               }
+               return qsTr("n/a")
+           }
+
             QGCColoredImage {
                 anchors.top:        parent.top
                 anchors.bottom:     parent.bottom
@@ -140,16 +154,25 @@ Item {
                     verticalAlignment:      Text.AlignVCenter
                     color:                  getBatteryColor()
                     text:                   getBatteryPercentageText()
-                    font.pointSize:         _showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize
-                    visible:                _showBoth || _showPercentage
+                    font.pointSize:         _showAll? ScreenTools.smallFontPointSize:(_showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize)
+                    visible:                _showBoth || _showPercentage || _showAll
                 }
 
                 QGCLabel {
                     Layout.alignment:       Qt.AlignHCenter
-                    font.pointSize:         _showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize
+                    font.pointSize:         _showAll? ScreenTools.smallFontPointSize:(_showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize)
                     color:                  getBatteryColor()
                     text:                   getBatteryVoltageText()
-                    visible:                _showBoth || _showVoltage
+                    visible:                _showBoth || _showVoltage || _showAll
+                }
+
+
+                QGCLabel {
+                    Layout.alignment:       Qt.AlignHCenter
+                    font.pointSize:         _showAll ? ScreenTools.smallFontPointSize : ScreenTools.mediumFontPointSize
+                    color:                  getBatteryColor()
+                    text:                   getMahConsumedText()
+                    visible:                _showAll
                 }
             }
         }

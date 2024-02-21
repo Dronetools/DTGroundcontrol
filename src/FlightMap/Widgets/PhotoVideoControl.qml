@@ -26,8 +26,8 @@ Rectangle {
     height:     mainLayout.height + (_margins * 2)
     color:      Qt.rgba(qgcPal.window.r, qgcPal.window.g, qgcPal.window.b, 0.5)
     radius:     _margins
-    visible:    (_mavlinkCamera || _videoStreamAvailable || _simpleCameraAvailable) && multiVehiclePanelSelector.showSingleVehiclePanel
-
+    //visible:    (_mavlinkCamera || _videoStreamAvailable || _simpleCameraAvailable) && multiVehiclePanelSelector.showSingleVehiclePanel
+    visible:    false
     property real   _margins:                                   ScreenTools.defaultFontPixelHeight / 2
     property var    _activeVehicle:                             QGroundControl.multiVehicleManager.activeVehicle
 
@@ -175,6 +175,8 @@ Rectangle {
         anchors.horizontalCenter:   parent.horizontalCenter
         spacing:                    ScreenTools.defaultFontPixelHeight / 2
 
+        //visible:                    false
+
         // Photo/Video Mode Selector
         // IMPORTANT: This control supports both mavlink cameras and simple video streams. Do no reference anything here which is not
         // using the unified properties/functions.
@@ -268,6 +270,8 @@ Rectangle {
             border.color:       qgcPal.buttonText
             border.width:       3
 
+            //visible:            false
+
             Rectangle {
                 anchors.centerIn:   parent
                 width:              parent.width * (_isShootingInCurrentMode ? 0.5 : 0.75)
@@ -323,6 +327,8 @@ Rectangle {
         ColumnLayout {
             Layout.alignment:   Qt.AlignHCenter
             spacing:            0
+
+            //visible:            false
 
             QGCLabel {
                 Layout.alignment:   Qt.AlignHCenter

@@ -685,10 +685,14 @@ ApplicationWindow {
     }
 
     //-------------------------------------------------------------------------
+    //
+    function desactivaSeleccionModos(indicatorItem){
+        if(indicatorItem instanceof FlightModeIndicator) return true
+    }
     //-- Indicator Drawer
 
     function showIndicatorDrawer(drawerComponent, indicatorItem) {
-        if(indicatorItem instanceof FlightModeIndicator) return
+        if(desactivaSeleccionModos(indicatorItem)) return
         indicatorDrawer.sourceComponent = drawerComponent
         indicatorDrawer.indicatorItem = indicatorItem
         indicatorDrawer.open()

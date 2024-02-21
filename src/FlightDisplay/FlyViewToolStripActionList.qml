@@ -30,6 +30,7 @@ ToolStripActionList {
             id: map_icon
             text:           qsTr("3D View")
             iconSource:     "/qmlimages/Viewer3D/City3DMapIcon.svg"
+            visible:        false
             onTriggered:{
                 if(viewer3DWindow.viewer3DOpen === false)
                 {
