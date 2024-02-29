@@ -113,7 +113,7 @@
     "shortDesc": "Video Stream Enabled",
     "longDesc":  "Start/Stop Video Stream.",
     "type":             "bool",
-    "default":     true
+    "default":     false
 },
 {
     "name":             "disableWhenDisarmed",
