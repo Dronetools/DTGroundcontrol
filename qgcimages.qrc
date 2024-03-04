@@ -209,5 +209,7 @@
         <file alias="ZoomPlus.svg">src/FlightMap/Images/ZoomPlus.svg</file>
         <file alias="Viewer3D/GearIcon.png">src/Viewer3D/Images/gear_icon.png</file>
         <file alias="Viewer3D/City3DMapIcon.svg">src/Viewer3D/Images/city_3d_map_icon.svg</file>
+		
+		<file alias="Dronetools/BrandImageLargo">resources/Dronetools/logolargo.png</file>
     </qresource>
 </RCC>

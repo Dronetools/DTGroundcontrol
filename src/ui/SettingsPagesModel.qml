@@ -22,37 +22,37 @@ ListModel {
     ListElement {
         name: qsTr("Fly View")
         url: "/qml/FlyViewSettings.qml"
-        //pageVisible: function() { return true }
-        pageVisible: false
+        pageVisible: function() { return true }
+
     }
 
     ListElement {
         name: qsTr("Plan View")
         url: "/qml/PlanViewSettings.qml"
-        //pageVisible: function() { return true }
-        pageVisible: false
+        pageVisible: function() { return true }
+
     }
 
     // ListElement {
     //     //
     //     name: qsTr("Video")
     //     url: "/qml/VideoSettings.qml"
-    //     //pageVisible: function() { return QGroundControl.settingsManager.videoSettings.visible }
-    //     pageVisible: false
+    //     pageVisible: function() { return QGroundControl.settingsManager.videoSettings.visible }
+
     // }
 
     ListElement {
         name: qsTr("Telemetry")
         url: "/qml/TelemetrySettings.qml"
-        // pageVisible: function() { return true }
-        pageVisible: false
+        pageVisible: function() { return true }
+
     }
 
     ListElement {
         name: qsTr("ADSB Server")
         url: "/qml/ADSBServerSettings.qml"
-        // pageVisible: function() { return true }
-        pageVisible: false
+        pageVisible: function() { return true }
+
     }
 
     ListElement {
@@ -99,8 +99,8 @@ ListModel {
     ListElement {
         name: qsTr("Mock Link")
         url: "/qml/MockLink.qml"
-        //pageVisible: function() { return ScreenTools.isDebug }
-        pageVisible: false
+        pageVisible: function() { return ScreenTools.isDebug }
+
     }
 
     ListElement {

@@ -185,4 +185,5 @@ Item {
                                         (videoControl.pipState.state === videoControl.pipState.pipState || mapControl.pipState.state === mapControl.pipState.pipState)
         }
     }
+    Component.onCompleted: console.log(`FlyViewWidgetLayer visbile? ${widgetLayer.visible}`)
 }

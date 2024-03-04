@@ -104,7 +104,8 @@ Rectangle {
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
         anchors.margins:        ScreenTools.defaultFontPixelHeight * 0.66
-        visible:                _activeVehicle && !_communicationLost && x > (toolsFlickable.x + toolsFlickable.contentWidth + ScreenTools.defaultFontPixelWidth)
+        //visible:                _activeVehicle && !_communicationLost && x > (toolsFlickable.x + toolsFlickable.contentWidth + ScreenTools.defaultFontPixelWidth)
+        visible:                 true
         fillMode:               Image.PreserveAspectFit
         source:                 _outdoorPalette ? _brandImageOutdoor : _brandImageIndoor
         mipmap:                 true
@@ -125,12 +126,14 @@ Rectangle {
                 if (_userBrandingOutdoor) {
                     return _userBrandingOutdoor
                 } else {
-                    if (_corePluginBranding) {
-                        return QGroundControl.corePlugin.brandImageIndoor
-                    } else {
-                        return _activeVehicle ? _activeVehicle.brandImageIndoor : ""
-                    }
+                    // if (_corePluginBranding) {
+                    //     return QGroundControl.corePlugin.brandImageIndoor
+                    // } else {
+                    //     return _activeVehicle ? _activeVehicle.brandImageIndoor : ""
+                    // }
+                    return "/qmlimages/Dronetools/BrandImageLargo"
                 }
+
             }
         }
 
@@ -141,11 +144,12 @@ Rectangle {
                 if (_userBrandingIndoor) {
                     return _userBrandingIndoor
                 } else {
-                    if (_corePluginBranding) {
-                        return QGroundControl.corePlugin.brandImageOutdoor
-                    } else {
-                        return _activeVehicle ? _activeVehicle.brandImageOutdoor : ""
-                    }
+                    // if (_corePluginBranding) {
+                    //     return QGroundControl.corePlugin.brandImageOutdoor
+                    // } else {
+                    //     return _activeVehicle ? _activeVehicle.brandImageOutdoor : ""
+                    // }
+                    return "/qmlimages/Dronetools/BrandImageLargo"
                 }
             }
         }

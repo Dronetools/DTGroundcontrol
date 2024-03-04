@@ -32,6 +32,8 @@ Rectangle {
 
     property bool _commingFromRIDSettings:  false
 
+    property bool showAdvancedSettings:     false
+
     function showSettingsPage(settingsPage) {
         for (var i=0; i<buttonRepeater.count; i++) {
             var button = buttonRepeater.itemAt(i)
@@ -75,15 +77,16 @@ Rectangle {
 
             property real _maxButtonWidth: 0
 
+
             Repeater {
                 id:     buttonRepeater
                 model:  settingsPagesModel
-
                 Button {
                     padding:            ScreenTools.defaultFontPixelWidth / 2
                     autoExclusive:      true
                     Layout.fillWidth:   true
-                    visible:            pageVisible()
+                    //visible:            pageVisible()
+                    visible:            name === "General" || showAdvancedSettings
 
                     background: Rectangle {
                         color:  checked ? qgcPal.buttonHighlight : "transparent"
@@ -124,6 +127,32 @@ Rectangle {
                     }
                 }
             }
+
+            Button {
+                property int numberClick: 0
+                padding:            ScreenTools.defaultFontPixelWidth / 2
+                autoExclusive:      true
+                Layout.fillWidth:   true
+
+                visible:            !showAdvancedSettings
+
+                background: Rectangle {
+                    color:  checked ? qgcPal.buttonHighlight : "transparent"
+                    radius: ScreenTools.defaultFontPixelWidth / 2
+                }
+
+                contentItem: QGCLabel {
+                    text:   "Advanced mode"
+                    color:  checked ? qgcPal.buttonHighlightText : qgcPal.buttonText
+                }
+
+                onClicked: {
+                    focus = true
+                    numberClick = numberClick + 1
+                    if(numberClick === 5) {showAdvancedSettings = true}
+                }
+            }
+
         }
     }
 
