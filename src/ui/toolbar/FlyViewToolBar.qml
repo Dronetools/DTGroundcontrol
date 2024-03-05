@@ -67,6 +67,7 @@ Rectangle {
             id:                     currentButton
             Layout.preferredHeight: viewButtonRow.height
             icon.source:            "/res/QGCLogoFull"
+            //icon.source:            "/res/dronetoolsicono"
             logo:                   true
             onClicked:              mainWindow.showToolSelectDialog()
         }

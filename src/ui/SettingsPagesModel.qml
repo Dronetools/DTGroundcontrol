@@ -33,13 +33,13 @@ ListModel {
 
     }
 
-    // ListElement {
-    //     //
-    //     name: qsTr("Video")
-    //     url: "/qml/VideoSettings.qml"
-    //     pageVisible: function() { return QGroundControl.settingsManager.videoSettings.visible }
+    ListElement {
+        //
+        name: qsTr("Video")
+        url: "/qml/VideoSettings.qml"
+        pageVisible: function() { return QGroundControl.settingsManager.videoSettings.visible }
 
-    // }
+    }
 
     ListElement {
         name: qsTr("Telemetry")

@@ -73,6 +73,7 @@ LinuxBuild {
     #- gstreamer assumed to be installed in $$PWD/../../gstreamer-1.0-android-universal-1.18.5/***
     contains(ANDROID_TARGET_ARCH, armeabi-v7a) {
         GST_ROOT = $$PWD/../../gstreamer-1.0-android-universal-1.18.5/armv7
+        message("Ruta de streaming encontrada !!!!!!!!!")
     } else:contains(ANDROID_TARGET_ARCH, arm64-v8a) {
         GST_ROOT = $$PWD/../../gstreamer-1.0-android-universal-1.18.5/arm64
     } else:contains(ANDROID_TARGET_ARCH, x86_64) {

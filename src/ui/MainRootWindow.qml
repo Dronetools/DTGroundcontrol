@@ -150,6 +150,7 @@ ApplicationWindow {
 
     function showSettingsTool(settingsPage = "") {
         showTool(qsTr("Application Settings"), "AppSettings.qml", "/res/QGCLogoWhite")
+        //showTool(qsTr("Application Settings"), "AppSettings.qml", "/res/dronetoolsicono")
         if (settingsPage !== "") {
             toolDrawerLoader.item.showSettingsPage(settingsPage)
         }
@@ -320,6 +321,7 @@ ApplicationWindow {
                             Layout.fillWidth:   true
                             text:               qsTr("Application Settings")
                             imageResource:      "/res/QGCLogoFull"
+                            //imageResource:      "/res/dronetoolsicono"
                             imageColor:         "transparent"
                             visible:            !QGroundControl.corePlugin.options.combineSettingsAndSetup
                             onClicked: {
