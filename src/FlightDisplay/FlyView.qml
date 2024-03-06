@@ -76,14 +76,11 @@ Item {
         bottomEdgeLeftInset:    _pipOverlay.visible ? parent.height - _pipOverlay.y : 0
     }
 
-    FlyViewToolBar {
-        id:         toolbar
-        visible:    !QGroundControl.videoManager.fullScreen
-    }
-
     Item {
         id:                 mapHolder
-        anchors.top:        toolbar.bottom
+        //anchors.top:        toolbar.bottom
+        //anchors.bottom:     parent.bottom
+        anchors.top:        parent.top
         anchors.bottom:     parent.bottom
         anchors.left:       parent.left
         anchors.right:      parent.right
@@ -185,5 +182,12 @@ Item {
                                         (videoControl.pipState.state === videoControl.pipState.pipState || mapControl.pipState.state === mapControl.pipState.pipState)
         }
     }
-    Component.onCompleted: console.log(`FlyViewWidgetLayer visbile? ${widgetLayer.visible}`)
+
+    FlyViewToolBar {
+        id:             toolbar
+        visible:        !QGroundControl.videoManager.fullScreen
+        //anchors.top:    mapHolder.bottom
+        anchors.bottom: mapHolder.bottom
+    }
+
 }

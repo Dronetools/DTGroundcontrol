@@ -112,7 +112,7 @@ Item {
                 return qsTr("n/a")
             }
 
-           function getBatteryVoltageText() {
+            function getBatteryVoltageText() {
                 if (!isNaN(battery.voltage.rawValue)) {
                     return battery.voltage.valueString + battery.voltage.units
                 } else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
@@ -123,7 +123,7 @@ Item {
 
 
            //.mahConsumed.valueString + " " + object.mahConsumed.units
-           function getMahConsumedText() {
+            function getMahConsumedText() {
                //console.log(`Mostrando: s${battery.mahConsumed.valueString + battery.mahConsumed.units}`)
                if (!isNaN(battery.mahConsumed.rawValue)) {
                    return battery.mahConsumed.valueString + battery.mahConsumed.units
@@ -131,7 +131,31 @@ Item {
                    return battery.chargeState.enumStringValue
                }
                return qsTr("n/a")
-           }
+            }
+
+            function getPorcetanBateriaEscalado (){
+                var voltage = battery.voltage.rawValue
+                if(!isNaN(voltage)){
+                    if(voltage > 44){
+                        return "100%"
+                    }else if(voltage <= 44 && voltage >43){
+                        return "75%"
+                    }else if(voltage <= 43 && voltage > 42){
+                        return "50%"
+                    }else if(voltage <= 42 && voltage > 41){
+                        return "30%"
+                    }else if(voltage <= 41 && voltage > 39.8){
+                        return "25%"
+                    }else if(voltage <= 39.8 && voltage > 39){
+                        return "10%"
+                    }else if(voltage <= 39 ){
+                        return "0%"
+                    }else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
+                        return battery.chargeState.enumStringValue
+                    }
+                    return qsTr("n/a")
+                }
+            }
 
             QGCColoredImage {
                 anchors.top:        parent.top
@@ -153,7 +177,7 @@ Item {
                     Layout.alignment:       Qt.AlignHCenter
                     verticalAlignment:      Text.AlignVCenter
                     color:                  getBatteryColor()
-                    text:                   getBatteryPercentageText()
+                    text:                   getPorcetanBateriaEscalado()
                     font.pointSize:         _showAll? ScreenTools.smallFontPointSize:(_showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize)
                     visible:                _showBoth || _showPercentage || _showAll
                 }

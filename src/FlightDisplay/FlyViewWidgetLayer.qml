@@ -157,8 +157,12 @@ Item {
 
                 AnchorChanges {
                     target: telemetryPanel
-                    anchors.top: undefined
-                    anchors.bottom: parent.bottom
+                    // anchors.top: undefined
+                    // anchors.bottom: parent.bottom
+                    // anchors.right: undefined
+                    // anchors.verticalCenter: undefined
+                    anchors.top: parent.top
+                    anchors.bottom: undefined
                     anchors.right: undefined
                     anchors.verticalCenter: undefined
                 }
