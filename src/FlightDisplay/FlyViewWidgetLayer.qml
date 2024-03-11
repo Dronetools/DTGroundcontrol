@@ -253,22 +253,22 @@ Item {
         property real rightEdgeBottomInset: visible ? bottomEdgeRightInset + width/18 - ScreenTools.defaultFontPixelHeight*2 : 0
     }
 
-    FlyViewToolStrip {
-        id:                     toolStrip
-        anchors.leftMargin:     _toolsMargin + parentToolInsets.leftEdgeCenterInset
-        anchors.topMargin:      _toolsMargin + parentToolInsets.topEdgeLeftInset
-        anchors.left:           parent.left
-        anchors.top:            parent.top
-        z:                      QGroundControl.zOrderWidgets
-        maxHeight:              parent.height - y - parentToolInsets.bottomEdgeLeftInset - _toolsMargin
-        visible:                !QGroundControl.videoManager.fullScreen
+    // FlyViewToolStrip {
+    //     id:                     toolStrip
+    //     anchors.leftMargin:     _toolsMargin + parentToolInsets.leftEdgeCenterInset
+    //     anchors.topMargin:      _toolsMargin + parentToolInsets.topEdgeLeftInset
+    //     anchors.left:           parent.left
+    //     anchors.top:            parent.top
+    //     z:                      QGroundControl.zOrderWidgets
+    //     maxHeight:              parent.height - y - parentToolInsets.bottomEdgeLeftInset - _toolsMargin
+    //     visible:                !QGroundControl.videoManager.fullScreen
 
-        onDisplayPreFlightChecklist: preFlightChecklistPopup.createObject(mainWindow).open()
+    //     onDisplayPreFlightChecklist: preFlightChecklistPopup.createObject(mainWindow).open()
 
 
-        property real topEdgeLeftInset: visible ? y + height : 0
-        property real leftEdgeTopInset: visible ? x + width : 0
-    }
+    //     property real topEdgeLeftInset: visible ? y + height : 0
+    //     property real leftEdgeTopInset: visible ? x + width : 0
+    // }
 
     GripperMenu {
         id: gripperOptions
@@ -282,13 +282,34 @@ Item {
     MapScale {
         id:                 mapScale
         anchors.margins:    _toolsMargin
-        anchors.left:       toolStrip.right
+        // anchors.left:       toolStrip.right
+        // anchors.top:        parent.top
         anchors.top:        parent.top
+        anchors.left:       parent.left
         mapControl:         _mapControl
         buttonsOnLeft:      true
         //visible:            !ScreenTools.isTinyScreen && QGroundControl.corePlugin.options.flyView.showMapScale && mapControl.pipState.state === mapControl.pipState.fullState
         visible:            true
         property real topEdgeCenterInset: visible ? y + height : 0
+    }
+
+    FlyViewToolStrip {
+        id:                     toolStrip
+        anchors.leftMargin:     _toolsMargin + parentToolInsets.leftEdgeCenterInset
+        anchors.topMargin:      _toolsMargin + parentToolInsets.topEdgeLeftInset
+        // anchors.left:           parent.left
+        // anchors.top:            parent.top
+        anchors.left:           parent.left
+        anchors.top:            mapScale.bottom
+        z:                      QGroundControl.zOrderWidgets
+        maxHeight:              parent.height - y - parentToolInsets.bottomEdgeLeftInset - _toolsMargin
+        visible:                !QGroundControl.videoManager.fullScreen
+
+        onDisplayPreFlightChecklist: preFlightChecklistPopup.createObject(mainWindow).open()
+
+
+        property real topEdgeLeftInset: visible ? y + height : 0
+        property real leftEdgeTopInset: visible ? x + width : 0
     }
 
     Component {

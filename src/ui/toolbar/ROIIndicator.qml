@@ -28,8 +28,8 @@ Item {
     anchors.top:            parent.top
     anchors.bottom:         parent.bottom
 
-    property bool showIndicator: _activeVehicle && _activeVehicle.roiModeSupported
-
+    //property bool showIndicator: _activeVehicle && _activeVehicle.roiModeSupported
+    property bool showIndicator:    false
     property var _activeVehicle: QGroundControl.multiVehicleManager.activeVehicle
 
     Component {

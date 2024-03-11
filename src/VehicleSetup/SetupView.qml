@@ -39,6 +39,8 @@ Rectangle {
     property bool   _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && !QGroundControl.multiVehicleManager.activeVehicle.parameterManager.missingParameters
     property var    _corePlugin:                    QGroundControl.corePlugin
 
+    property  var sensorsAdvancedMode: 0
+
     function showSummaryPanel() {
         if (mainWindow.preventViewSwitch()) {
             return
@@ -71,6 +73,10 @@ Rectangle {
 
     function showVehicleComponentPanel(vehicleComponent)
     {
+        if(vehicleComponent.name.toLowerCase() === "sensors"){
+            sensorsAdvancedMode ++
+        }
+
         if (mainWindow.preventViewSwitch()) {
             return
         }
