@@ -43,7 +43,6 @@ Item {
         id:             batteryIndicatorRow
         anchors.top:    parent.top
         anchors.bottom: parent.bottom
-
         Repeater {
             model: _activeVehicle ? _activeVehicle.batteries : 0
 
@@ -60,6 +59,8 @@ Item {
         anchors.fill:   parent
         onClicked: {
             mainWindow.showIndicatorDrawer(batteryPopup, control)
+            console.log("=============================??Indicadores")
+            _activeVehicle.toolIndicators.forEach(x => console.log(x))
         }
     }
 
@@ -80,7 +81,6 @@ Item {
         Row {
             anchors.top:    parent.top
             anchors.bottom: parent.bottom
-
             function getBatteryColor() {
                 switch (battery.chargeState.rawValue) {
                 case MAVLink.MAV_BATTERY_CHARGE_STATE_OK:

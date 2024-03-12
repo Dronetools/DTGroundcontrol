@@ -129,6 +129,7 @@ Rectangle {
             }
 
             Button {
+                id:btnadv
                 property int numberClick: 0
                 padding:            ScreenTools.defaultFontPixelWidth / 2
                 autoExclusive:      true
@@ -136,21 +137,29 @@ Rectangle {
 
                 visible:            !showAdvancedSettings
 
+                checked:            false
+
                 background: Rectangle {
-                    color:  checked ? qgcPal.buttonHighlight : "transparent"
+                    color:  btnadv.checked ? qgcPal.buttonHighlight : "transparent"
                     radius: ScreenTools.defaultFontPixelWidth / 2
                 }
 
                 contentItem: QGCLabel {
                     text:   "Advanced mode"
-                    color:  checked ? qgcPal.buttonHighlightText : qgcPal.buttonText
+                    color:  btnadv.checked ? qgcPal.buttonHighlightText : qgcPal.buttonText
                 }
 
                 onClicked: {
                     focus = true
+                    btnadv.checked = true
                     numberClick = numberClick + 1
                     if(numberClick === 5) {showAdvancedSettings = true}
+                    if (rightPanel.source !== url) {
+                        rightPanel.source = "/qml/PX4LogTransferSettings.qml"
+                    }
+
                 }
+
             }
 
         }

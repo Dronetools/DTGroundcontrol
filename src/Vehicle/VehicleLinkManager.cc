@@ -144,6 +144,7 @@ void VehicleLinkManager::_commLostCheck(void)
                 return;
             }
             _vehicle->_say(tr("%1Communication lost").arg(_vehicle->_vehicleIdSpeech()));
+            //_vehicle->_say(tr("%1Comunicacion perdida").arg(_vehicle->_vehicleIdSpeech()));
 
             _communicationLost = true;
             emit communicationLostChanged(true);

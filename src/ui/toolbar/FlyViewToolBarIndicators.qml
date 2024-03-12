@@ -18,7 +18,12 @@ Row {
     id:                 indicatorRow
     anchors.top:        parent.top
     anchors.bottom:     parent.bottom
-    anchors.margins:    _toolIndicatorMargins
+    //anchors.margins:    _toolIndicatorMargins
+    anchors.leftMargin: _toolIndicatorMargins
+    anchors.rightMargin: _toolIndicatorMargins
+    anchors.topMargin: _toolIndicatorMargins * 0.5
+    anchors.bottomMargin: _toolIndicatorMargins
+
     spacing:            ScreenTools.defaultFontPixelWidth * 1.75
 
     property var  _activeVehicle:           QGroundControl.multiVehicleManager.activeVehicle
@@ -27,6 +32,15 @@ Row {
     function dropMessageIndicatorTool() {
         toolIndicatorsRepeater.dropMessageIndicatorTool();
     }
+
+    function margenes(){
+        console.log("==========================")
+        console.log(`Tool indicator margins: ${indicatorRow._toolIndicatorMargins}`)
+        console.log(`Anchors Margenes:
+                    ${indicatorRow.anchors.topMargin}, ${indicatorRow.anchors.bottomMargin},
+                    ${indicatorRow.anchors.leftMargin},${indicatorRow.anchors.rightMargin}`)
+    }
+
 
     Repeater {
         id:     appRepeater
@@ -69,4 +83,5 @@ Row {
             visible:            item.showIndicator
         }
     }
+
 }
