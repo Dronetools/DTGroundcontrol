@@ -44,6 +44,10 @@ Rectangle {
         }
     }
 
+    onShowAdvancedSettingsChanged: {
+        rightPanel.source = "/qml/GeneralSettings.qml"
+    }
+
     QGCPalette { id: qgcPal }
 
     Component.onCompleted: {
@@ -153,9 +157,8 @@ Rectangle {
                     focus = true
                     btnadv.checked = true
                     numberClick = numberClick + 1
-                    if(numberClick === 5) {showAdvancedSettings = true}
-                    if (rightPanel.source !== url) {
-                        rightPanel.source = "/qml/PX4LogTransferSettings.qml"
+                    if (rightPanel.source !== "/qml/PassModoAvanzado.qml") {
+                        rightPanel.source = "/qml/PassModoAvanzado.qml"
                     }
 
                 }

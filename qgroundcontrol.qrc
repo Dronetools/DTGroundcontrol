@@ -351,6 +351,7 @@
         <file alias="Viewer3D/Models3D/Waypoint3DModel.qml">src/Viewer3D/Viewer3D/Models3D/Waypoint3DModel.qml</file>
         <file alias="Viewer3D/Models3D/Line3D.qml">src/Viewer3D/Viewer3D/Models3D/Line3D.qml</file>
         <file alias="Viewer3D/Models3D/Viewer3DVehicleItems.qml">src/Viewer3D/Viewer3D/Models3D/Viewer3DVehicleItems.qml</file>
+        <file alias="PassModoAvanzado.qml">src/ui/preferences/PassModoAvanzado.qml</file>
     </qresource>
     <qresource prefix="/FirstRunPromptDialogs">
         <file alias="UnitsFirstRunPrompt.qml">src/FirstRunPromptDialogs/UnitsFirstRunPrompt.qml</file>
