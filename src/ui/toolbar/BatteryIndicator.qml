@@ -39,6 +39,34 @@ Item {
 
     //Añadido label para que muestra mA consumidos
     property bool   _showAll:           _indicatorDisplay.rawValue === 3
+
+
+
+    function getPorcetanBateriaEscalado (battery){
+        var voltage = battery.voltage.rawValue
+        if(!isNaN(voltage)){
+            if(voltage > 44){
+                return "100%"
+            }else if(voltage <= 44 && voltage >43){
+                return "75%"
+            }else if(voltage <= 43 && voltage > 42){
+                return "50%"
+            }else if(voltage <= 42 && voltage > 41){
+                return "30%"
+            }else if(voltage <= 41 && voltage > 39.8){
+                return "25%"
+            }else if(voltage <= 39.8 && voltage > 39){
+                return "10%"
+            }else if(voltage <= 39 ){
+                return "0%"
+            }else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
+                return battery.chargeState.enumStringValue
+            }
+        }
+        return qsTr("n/a")
+    }
+
+
     Row {
         id:             batteryIndicatorRow
         anchors.top:    parent.top
@@ -133,29 +161,6 @@ Item {
                return qsTr("n/a")
             }
 
-            function getPorcetanBateriaEscalado (){
-                var voltage = battery.voltage.rawValue
-                if(!isNaN(voltage)){
-                    if(voltage > 44){
-                        return "100%"
-                    }else if(voltage <= 44 && voltage >43){
-                        return "75%"
-                    }else if(voltage <= 43 && voltage > 42){
-                        return "50%"
-                    }else if(voltage <= 42 && voltage > 41){
-                        return "30%"
-                    }else if(voltage <= 41 && voltage > 39.8){
-                        return "25%"
-                    }else if(voltage <= 39.8 && voltage > 39){
-                        return "10%"
-                    }else if(voltage <= 39 ){
-                        return "0%"
-                    }else if (battery.chargeState.rawValue !== MAVLink.MAV_BATTERY_CHARGE_STATE_UNDEFINED) {
-                        return battery.chargeState.enumStringValue
-                    }
-                    return qsTr("n/a")
-                }
-            }
 
             QGCColoredImage {
                 anchors.top:        parent.top
@@ -177,7 +182,7 @@ Item {
                     Layout.alignment:       Qt.AlignHCenter
                     verticalAlignment:      Text.AlignVCenter
                     color:                  getBatteryColor()
-                    text:                   getPorcetanBateriaEscalado()
+                    text:                   getPorcetanBateriaEscalado(battery)
                     font.pointSize:         _showAll? ScreenTools.smallFontPointSize:(_showBoth ? ScreenTools.defaultFontPointSize : ScreenTools.mediumFontPointSize)
                     visible:                _showBoth || _showPercentage || _showAll
                 }
@@ -268,7 +273,7 @@ Item {
 
                     LabelledLabel {
                         label:      qsTr("Remaining")
-                        labelText:  object.percentRemaining.valueString + " " + object.percentRemaining.units
+                        labelText:  getPorcetanBateriaEscalado(object)
                     }
 
                     LabelledLabel {
