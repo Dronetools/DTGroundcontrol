@@ -805,7 +805,7 @@ Item {
                             anchors.left:   parent.left
                             anchors.right:  parent.right
                             model:          QGroundControl.mapEngineManager.mapList
-                            onActivated: {
+                            onActivated: (index) => {
                                 mapType = textAt(index)
                             }
                             Component.onCompleted: {
@@ -979,9 +979,11 @@ Item {
                             onClicked: {
                                 if(QGroundControl.mapEngineManager.findName(setName.text)) {
                                     duplicateName.visible = true
+                                    console.log("findName")
                                 } else {
                                     QGroundControl.mapEngineManager.startDownload(setName.text, mapType);
                                     showList()
+                                    console.log("startDownload")
                                 }
                             }
                         }

@@ -15,6 +15,7 @@ import QGroundControl.Controllers
 import QGroundControl.ScreenTools
 
 Item {
+
     id:         _root
     visible:    QGroundControl.videoManager.hasVideo
 
