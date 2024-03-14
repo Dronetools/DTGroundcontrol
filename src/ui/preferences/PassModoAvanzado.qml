@@ -14,8 +14,8 @@ Rectangle {
     anchors.fill:       parent
     anchors.margins:    ScreenTools.defaultFontPixelWidth
 
-    //property var codigoModoAvanzado:    "dronetools"
-    property var codigoModoAvanzado:    "1"
+    property var codigoModoAvanzado:    "dronetools"
+    //property var codigoModoAvanzado:    "1"
 
     property var _currentSelection:     null
     property int _firstColumnWidth:     ScreenTools.defaultFontPixelWidth * 12
@@ -89,9 +89,15 @@ Rectangle {
 
                         onClicked: {
                             console.log("Clicked")
-                            console.log(`${btnadv.numberClick}`)
+                            //console.log(`${btnadv.numberClick}`)
                             if(codigoField.text === codigoModoAvanzado){
-                                settingsView.showAdvancedSettings = true
+                                if(typeof(settingsView) !== "undefined"){
+                                    settingsView.showAdvancedSettings = true
+                                }
+
+                                if(typeof(setupView) !== "undefined"){
+                                    setupView.advancedModeSetup = true
+                                }
                             }else{
                                 codigoField.text = ""                            }
                         }

@@ -59,6 +59,8 @@ void AudioOutput::say(const QString& inText)
             _tts->say(text);
         }
     }
+
+    qDebug() << "Mensaje MAVLINK recibido: " << inText;
 }
 
 void AudioOutput::_stateChanged(QTextToSpeech::State state)

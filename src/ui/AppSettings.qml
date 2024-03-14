@@ -192,5 +192,7 @@ Rectangle {
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
     }
+
+    Component.onDestruction: {console.log("Destruyendo AppSettings.qml")}
 }
 

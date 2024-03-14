@@ -39,8 +39,13 @@ Rectangle {
     property bool   _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && !QGroundControl.multiVehicleManager.activeVehicle.parameterManager.missingParameters
     property var    _corePlugin:                    QGroundControl.corePlugin
 
+    property bool advancedModeSetup:                false
     property  var sensorsAdvancedMode: 0
 
+    onAdvancedModeSetupChanged: {
+        panelLoader.setSource("VehicleSummary.qml")
+        summaryButton.checked = true
+    }
     function showSummaryPanel() {
         if (mainWindow.preventViewSwitch()) {
             return
@@ -74,7 +79,7 @@ Rectangle {
     function showVehicleComponentPanel(vehicleComponent)
     {
         if(vehicleComponent.name.toLowerCase() === "sensors"){
-            sensorsAdvancedMode ++
+                    sensorsAdvancedMode ++
         }
 
         if (mainWindow.preventViewSwitch()) {
@@ -87,7 +92,6 @@ Rectangle {
             panelLoader.setSourceComponent(messagePanelComponent)
         } else {
             panelLoader.setSource(vehicleComponent.setupSource, vehicleComponent)
-            console.log(vehicleComponent.setupSource.toString())
             for(var i = 0; i < componentRepeater.count; i++) {
                 var obj = componentRepeater.itemAt(i);
                 if (obj.text === vehicleComponent.name) {
@@ -112,10 +116,6 @@ Rectangle {
         if (panelButtonName === parametersButton.text) {
             parametersButton.clicked()
         }
-    }
-
-    function showJustSensorsPanel(vehicleComponent){
-        return vehicleComponent.name.toLowerCase() === "sensors"
     }
 
     Component.onCompleted: _showSummaryPanel()
@@ -252,8 +252,7 @@ Rectangle {
                 imageResource:      "/qmlimages/FirmwareUpgradeIcon.png"
                 setupIndicator:     false
                 buttonGroup:     setupButtonGroup
-                //visible:            !ScreenTools.isMobile && _corePlugin.options.showFirmwareUpgrade
-                visible:            false
+                visible:            !ScreenTools.isMobile && _corePlugin.options.showFirmwareUpgrade  && advancedModeSetup
                 text:               qsTr("Firmware")
                 Layout.fillWidth:   true
 
@@ -263,7 +262,7 @@ Rectangle {
             SubMenuButton {
                 id:                 px4FlowButton
                 buttonGroup:     setupButtonGroup
-                visible:            QGroundControl.multiVehicleManager.activeVehicle ? QGroundControl.multiVehicleManager.activeVehicle.vehicleLinkManager.primaryLinkIsPX4Flow : false
+                visible:            QGroundControl.multiVehicleManager.activeVehicle  && advancedModeSetup ? QGroundControl.multiVehicleManager.activeVehicle.vehicleLinkManager.primaryLinkIsPX4Flow : false
                 setupIndicator:     false
                 text:               qsTr("PX4Flow")
                 Layout.fillWidth:   true
@@ -276,7 +275,7 @@ Rectangle {
                 setupIndicator:     true
                 setupComplete:      _activeJoystick ? _activeJoystick.calibrated || _buttonsOnly : false
                 buttonGroup:     setupButtonGroup
-                visible:            _fullParameterVehicleAvailable && joystickManager.joysticks.length !== 0
+                visible:            _fullParameterVehicleAvailable && joystickManager.joysticks.length !== 0  && advancedModeSetup
                 text:               _forcedToButtonsOnly ? qsTr("Buttons") : qsTr("Joystick")
                 Layout.fillWidth:   true
                 onClicked:          showPanel(this, "JoystickConfig.qml")
@@ -296,8 +295,7 @@ Rectangle {
                     setupComplete:      modelData.setupComplete
                     buttonGroup:     setupButtonGroup
                     text:               modelData.name
-                    //visible:            modelData.setupSource.toString() !== ""
-                    visible:            showJustSensorsPanel(modelData)
+                    visible:            modelData.setupSource.toString() !== "" && advancedModeSetup
                     Layout.fillWidth:   true
                     onClicked:          showVehicleComponentPanel(componentUrl)
 
@@ -309,14 +307,25 @@ Rectangle {
                 id:                 parametersButton
                 setupIndicator:     false
                 buttonGroup:     setupButtonGroup
-                //visible:            QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable &&
-                //                    !QGroundControl.multiVehicleManager.activeVehicle.usingHighLatencyLink &&
-                //                    _corePlugin.showAdvancedUI
-                visible:            false
+                visible:            QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable &&
+                                    !QGroundControl.multiVehicleManager.activeVehicle.usingHighLatencyLink &&
+                                    _corePlugin.showAdvancedUI && advancedModeSetup
                 text:               qsTr("Parameters")
                 Layout.fillWidth:   true
                 onClicked:          showPanel(this, "SetupParameterEditor.qml")
             }
+
+            SubMenuButton {
+                id:                 modoAvanzado
+                setupIndicator:     false
+                buttonGroup:     setupButtonGroup
+                visible:            !advancedModeSetup
+                text:               qsTr("Advanced mode")
+                Layout.fillWidth:   true
+                //onClicked:          showPanel(this, "SetupParameterEditor.qml")
+                onClicked:          showPanel(this, "PassModoAvanzado.qml")
+            }
+
 
         }
     }
@@ -358,4 +367,6 @@ Rectangle {
 
         property var vehicleComponent
     }
+
+    Component.onDestruction: {console.log("Destruyendo SetupView.qml")}
 }

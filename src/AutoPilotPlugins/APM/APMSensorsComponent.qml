@@ -164,7 +164,7 @@ SetupPage {
                     }
                 }
 
-                onCalibrationComplete: {
+                onCalibrationComplete: function(calType){
                     switch (calType) {
                     case APMSensorsComponentController.CalTypeAccel:
                     case APMSensorsComponentController.CalTypeOnboardCompass:
@@ -174,7 +174,7 @@ SetupPage {
                     }
                 }
 
-                onSetAllCalButtonsEnabled: {
+                onSetAllCalButtonsEnabled: function(enabled){
                     buttonColumn.enabled = enabled
                 }
             }
@@ -718,7 +718,6 @@ SetupPage {
                     QGCButton {
                         width:      _buttonWidth
                         text:       _calibratePressureText
-                        visible: setupView.sensorsAdvancedMode >= 5
                         onClicked:  mainWindow.showMessageDialog(_calibratePressureText,
                                                                  qsTr("Pressure calibration will set the %1 to zero at the current pressure reading. %2").arg(_altText).arg(_helpTextFW),
                                                                  Dialog.Cancel | Dialog.Ok,
