@@ -226,7 +226,7 @@ Rectangle {
                                     model:                  QGroundControl.linkManager.linkTypeStrings
                                     currentIndex:           editingConfig.linkType
 
-                                    onActivated: {
+                                    onActivated: function(index) {
                                         if (index !== editingConfig.linkType) {
                                             // Save current name
                                             var name = nameField.text

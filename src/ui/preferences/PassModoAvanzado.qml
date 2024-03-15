@@ -14,8 +14,8 @@ Rectangle {
     anchors.fill:       parent
     anchors.margins:    ScreenTools.defaultFontPixelWidth
 
-    //property var codigoModoAvanzado:    "dronetools"
-    property var codigoModoAvanzado:    "q"
+    property var codigoModoAvanzado:    "dronetools"
+    //property var codigoModoAvanzado:    "q"
 
     property var _currentSelection:     null
     property int _firstColumnWidth:     ScreenTools.defaultFontPixelWidth * 12
