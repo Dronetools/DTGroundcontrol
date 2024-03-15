@@ -76,12 +76,15 @@ Item {
         bottomEdgeLeftInset:    _pipOverlay.visible ? parent.height - _pipOverlay.y : 0
     }
 
+
+
+
     Item {
         id:                 mapHolder
         //anchors.top:        toolbar.bottom
         //anchors.bottom:     parent.bottom
         anchors.top:        parent.top
-        anchors.bottom:     parent.bottom
+        anchors.bottom:     toolbar.top
         anchors.left:       parent.left
         anchors.right:      parent.right
 
@@ -183,11 +186,15 @@ Item {
         }
     }
 
+
     FlyViewToolBar {
         id:             toolbar
         visible:        !QGroundControl.videoManager.fullScreen
         //anchors.top:    mapHolder.bottom
-        anchors.bottom: mapHolder.bottom
+        //anchors.bottom: mapHolder.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
 }

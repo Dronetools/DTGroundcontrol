@@ -4,6 +4,7 @@
 cmake-build-*/
 out/
 libs/lib/Frameworks/GStreamer.framework
+libs/OpenSSL/android_openssl-original
 *_qmlcache.qrc
 *.swp
 *.nfs
