@@ -57,6 +57,8 @@ FlightMap {
     property bool   _keepVehicleCentered:       pipMode ? true : false
     property bool   _saveZoomLevelSetting:      true
 
+    property var    _numberOfVehicles:                  QGroundControl.multiVehicleManager.vehicles.count
+
     function _adjustMapZoomForPipMode() {
         _saveZoomLevelSetting = false
         if (pipMode) {
@@ -566,7 +568,7 @@ FlightMap {
 
             QGCButton {
                 Layout.fillWidth: true
-                text: "Go to location"
+                text: `Go to location( ${_numberOfVehicles})`
                 visible: globals.guidedControllerFlyView.showGotoLocation
                 onClicked: {
                     if (clickMenu.opened) {

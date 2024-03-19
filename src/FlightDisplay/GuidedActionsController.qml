@@ -113,7 +113,8 @@ Item {
     readonly property int actionGripper:                    26
     readonly property int actionSetHome:                    27
     readonly property int actionSetEstimatorOrigin:         28
-  
+
+
 
     property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
     property bool   _useChecklist:              QGroundControl.settingsManager.appSettings.useChecklist.rawValue && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
@@ -369,6 +370,7 @@ Item {
 
     // Called when an action is about to be executed in order to confirm
     function confirmAction(actionCode, actionData, mapIndicator) {
+        console.log("confirm action");
         var showImmediate = true
         closeAll()
         confirmDialog.action = actionCode
@@ -579,7 +581,16 @@ Item {
             _activeVehicle.guidedModeChangeAltitude(sliderOutputValue, false /* pauseVehicle */)
             break
         case actionGoto:
-            _activeVehicle.guidedModeGotoLocation(actionData)
+            // Codigo => 8
+            rgVehicle = QGroundControl.multiVehicleManager.vehicles
+            for (i = 0; i < rgVehicle.count; i++) {
+                var actionDataAltOffset = actionData;
+                actionDataAltOffset.altitude = 5 * i;
+                console.log(`Dron ${i +1} go to: ${actionDataAltOffset}`)
+                console.log(`Dron ${i +1} go to JSON: ${JSON.stringify(actionDataAltOffset)}`)
+                rgVehicle.get(i).guidedModeGotoLocation(actionDataAltOffset)
+            }
+            //_activeVehicle.guidedModeGotoLocation(actionData)
             break
         case actionSetWaypoint:
             _activeVehicle.setCurrentMissionSequence(actionData)

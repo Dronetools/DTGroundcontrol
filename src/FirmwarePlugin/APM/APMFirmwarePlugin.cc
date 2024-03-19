@@ -801,7 +801,9 @@ out:
 
 void APMFirmwarePlugin::guidedModeGotoLocation(Vehicle* vehicle, const QGeoCoordinate& gotoCoord)
 {
+    qDebug() << "GuidedModeGotoLocation, Altitude: " <<  gotoCoord.altitude();
     if (qIsNaN(vehicle->altitudeRelative()->rawValue().toDouble())) {
+        qDebug() << "Unable to go to location, vehicle position not known.";
         qgcApp()->showAppMessage(QStringLiteral("Unable to go to location, vehicle position not known."));
         return;
     }
@@ -814,12 +816,12 @@ void APMFirmwarePlugin::guidedModeGotoLocation(Vehicle* vehicle, const QGeoCoord
     // if we know it is supported or we don't know for sure it is
     // unsupported then send the command:
     if (instanceData) {
+        qDebug() << "Do reposition supported? " << instanceData->MAV_CMD_DO_REPOSITION_supported;
         if (instanceData->MAV_CMD_DO_REPOSITION_supported ||
             !instanceData->MAV_CMD_DO_REPOSITION_unsupported) {
             auto* result_handler_data = new MAV_CMD_DO_REPOSITION_HandlerData_t{
                 vehicle
             };
-
             Vehicle::MavCmdAckHandlerInfo_t handlerInfo = {};
             handlerInfo.resultHandler       = _MAV_CMD_DO_REPOSITION_ResultHandler;
             handlerInfo.resultHandlerData   = result_handler_data;
@@ -835,19 +837,23 @@ void APMFirmwarePlugin::guidedModeGotoLocation(Vehicle* vehicle, const QGeoCoord
                 NAN,
                 gotoCoord.latitude(),
                 gotoCoord.longitude(),
-                vehicle->altitudeAMSL()->rawValue().toFloat()
+                vehicle->altitudeAMSL()->rawValue().toFloat() + gotoCoord.altitude()
                 );
+            qDebug() << "MAV_CMD_DO_REPOSITION SUPPORTED 1 ";
         }
         if (instanceData->MAV_CMD_DO_REPOSITION_supported) {
             // no need to fall back
+            qDebug() << "MAV_CMD_DO_REPOSITION SUPPORTED 2";
             return;
         }
-    }
 
+        qDebug() << "InstanceData: True";
+    }
+    qDebug() << "InstanceData: False";
     setGuidedMode(vehicle, true);
 
     QGeoCoordinate coordWithAltitude = gotoCoord;
-    coordWithAltitude.setAltitude(vehicle->altitudeRelative()->rawValue().toDouble());
+    coordWithAltitude.setAltitude(vehicle->altitudeRelative()->rawValue().toDouble() + gotoCoord.altitude());
     vehicle->missionManager()->writeArduPilotGuidedMissionItem(coordWithAltitude, false /* altChangeOnly */);
 }
 
