@@ -16,6 +16,7 @@
 #include "QGC.h"
 #include "SettingsManager.h"
 
+
 AudioOutput::AudioOutput(QGCApplication* app, QGCToolbox* toolbox)
     : QGCTool   (app, toolbox)
     , _tts      (nullptr)
@@ -47,20 +48,58 @@ void AudioOutput::say(const QString& inText)
     muted |= qgcApp()->runningUnitTests();
     if (!muted && !qgcApp()->runningUnitTests()) {
         QString text = fixTextMessageForAudio(inText);
+        qDebug() << "Mensaje MAVLINK recibido: " << text;
+        QString traducido = traducir(text);
         if(_tts->state() == QTextToSpeech::Speaking) {
-            if(!_texts.contains(text)) {
+            if(!_texts.contains(traducido)) {
                 //-- Some arbitrary limit
                 if(_texts.size() > 20) {
                     _texts.removeFirst();
                 }
-                _texts.append(text);
+                _texts.append(traducido);
             }
         } else {
-            _tts->say(text);
+            _tts->say(traducido);
         }
     }
+}
 
-    qDebug() << "Mensaje MAVLINK recibido: " << inText;
+QString AudioOutput::traducir(QString text){
+    static QRegularExpression reFlightMode(R"(([\w\s]+)flight mode)");
+    static QRegularExpression reInitFailed(R"(mode change to (\w+) failed: init failed)");
+    static QRegularExpression rePreArmFailsafe(R"(mode change to (\w+) failed: init failed)");
+    QMap<QString,QString> diccionarioModos;
+    diccionarioModos["guided"] = "guiado";
+    diccionarioModos["stabilize"] = "estabilizado";
+    diccionarioModos["auto"] = "automático";
+    diccionarioModos["altitude hold"] = "mantenimiento de altura";
+    QString textoTraducido = text.trimmed().toLower();
+    QRegularExpressionMatch matchFlightMode = reFlightMode.match(textoTraducido);
+    QRegularExpressionMatch matchInitFailed = reInitFailed.match(textoTraducido);
+    if(matchFlightMode.hasMatch()) {
+        textoTraducido = "Modo de vuelo: ";
+        QString modo = matchFlightMode.captured(1).trimmed();
+        if(diccionarioModos.contains(modo)) modo = diccionarioModos.value(modo);
+        textoTraducido += modo;
+    }else if(matchInitFailed.hasMatch()){
+        textoTraducido = "Error en cambio a modo $: fallo de inicialización";
+        QString modo = matchInitFailed.captured(1).trimmed();
+        if(diccionarioModos.contains(modo)) modo = diccionarioModos.value(modo);
+        textoTraducido = textoTraducido.replace("$",modo);
+    }else if(textoTraducido.contains("no such mode")){
+        textoTraducido = textoTraducido.replace("no such mode","No existe el modo");
+    }else if(textoTraducido == "pre arm: battery 1 below minimum arming voltage" || textoTraducido == "arm: battery 1 below minimum arming voltage"){
+        textoTraducido = "Batería por debajo del mínimo requerido para el armado";
+    }else if(textoTraducido == "pre arm: battery 1 low voltage failsafe" || textoTraducido == "pre arm: battery failsafe" || textoTraducido == "arm: battery failsafe"){
+        textoTraducido = "Batería por debajo del voltaje de seguridad, feilseif";
+    }else if(textoTraducido.contains("potential thrust loss")){ textoTraducido = "Pérdida del potencial de empuje";
+    }else if(textoTraducido == "battery  level low"){ textoTraducido = "Nivel de batería bajo";
+    }else if(textoTraducido.contains("battery failsafe")){ textoTraducido = "Modo feilseif";
+    }else if(textoTraducido == "armed" ){textoTraducido = "armado";
+    }else if(textoTraducido == "disarmed" ) textoTraducido = "desarmado";
+
+    qDebug() << "Texto traducido: " << textoTraducido;
+    return textoTraducido;
 }
 
 void AudioOutput::_stateChanged(QTextToSpeech::State state)

@@ -29,6 +29,8 @@ public:
     static bool     getMillisecondString    (const QString& string, QString& match, int& number);
     static QString  fixTextMessageForAudio  (const QString& string);
 
+    static QString     traducir                (QString text);
+
 public slots:
     /// Convert string to speech output and say it
     void            say                     (const QString& text);
