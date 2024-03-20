@@ -114,7 +114,8 @@ Item {
     readonly property int actionSetHome:                    27
     readonly property int actionSetEstimatorOrigin:         28
 
-
+    readonly property int actionPatron:                     29
+    readonly property string patronMessage:                    qsTr("Ir al siguiente punto manteniendo las distancias")
 
     property var    _activeVehicle:             QGroundControl.multiVehicleManager.activeVehicle
     property bool   _useChecklist:              QGroundControl.settingsManager.appSettings.useChecklist.rawValue && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
@@ -530,6 +531,12 @@ Item {
             confirmDialog.title = setEstimatorOriginTitle
             confirmDialog.message = setEstimatorOriginMessage
             break
+
+        case actionPatron:
+            confirmDialog.title = gotoTitle
+            confirmDialog.message = patronMessage
+            confirmDialog.hideTrigger = Qt.binding(function() { return !showGotoLocation })
+            break;
         default:
             console.warn("Unknown actionCode", actionCode)
             return
@@ -582,15 +589,7 @@ Item {
             break
         case actionGoto:
             // Codigo => 8
-            rgVehicle = QGroundControl.multiVehicleManager.vehicles
-            for (i = 0; i < rgVehicle.count; i++) {
-                var actionDataAltOffset = actionData;
-                actionDataAltOffset.altitude = 5 * i;
-                console.log(`Dron ${i +1} go to: ${actionDataAltOffset}`)
-                console.log(`Dron ${i +1} go to JSON: ${JSON.stringify(actionDataAltOffset)}`)
-                rgVehicle.get(i).guidedModeGotoLocation(actionDataAltOffset)
-            }
-            //_activeVehicle.guidedModeGotoLocation(actionData)
+            _activeVehicle.guidedModeGotoLocation(actionData)
             break
         case actionSetWaypoint:
             _activeVehicle.setCurrentMissionSequence(actionData)
@@ -638,6 +637,26 @@ Item {
             break
         case actionSetEstimatorOrigin:
             _activeVehicle.setEstimatorOrigin(actionData)
+            break
+
+        case actionPatron:
+            // Codigo => 8
+            rgVehicle = QGroundControl.multiVehicleManager.vehicles
+            const {latitude:latActVehicle,longitude:longActVehicle} = _activeVehicle.coordinate;
+            console.log(`Active vehicle pos: ${latActVehicle}, ${longActVehicle}`);
+            for (i = 0; i < rgVehicle.count; i++) {
+                if(_activeVehicle.id === rgVehicle.get(i).id){
+                     rgVehicle.get(i).guidedModeGotoLocation(actionData);
+                    continue
+                }
+                const {latitude,longitude} = rgVehicle.get(i).coordinate;
+                const diferenciaLatitud  = (latActVehicle  - latitude)  * (-1);
+                const diferenciaLongitud = (longActVehicle - longitude) * (-1);
+                let actionDataOffset = Object.assign({},actionData);
+                actionDataOffset.latitude  += diferenciaLatitud  ;
+                actionDataOffset.longitude += diferenciaLongitud ;
+                rgVehicle.get(i).guidedModeGotoLocation(actionDataOffset)
+            }
             break
         default:
             console.warn(qsTr("Internal error: unknown actionCode"), actionCode)

@@ -568,7 +568,7 @@ FlightMap {
 
             QGCButton {
                 Layout.fillWidth: true
-                text: `Go to location( ${_numberOfVehicles})`
+                text: `Go to location`
                 visible: globals.guidedControllerFlyView.showGotoLocation
                 onClicked: {
                     if (clickMenu.opened) {
@@ -576,6 +576,20 @@ FlightMap {
                     }
                     gotoLocationItem.show(clickMenu.coord)
                     globals.guidedControllerFlyView.confirmAction(globals.guidedControllerFlyView.actionGoto, clickMenu.coord, gotoLocationItem)
+                }
+            }
+
+
+            QGCButton {
+                Layout.fillWidth: true
+                text: `Go to location(${_numberOfVehicles}), keep distance`
+                visible: _numberOfVehicles > 1
+                onClicked: {
+                    if (clickMenu.opened) {
+                        clickMenu.close()
+                    }
+                    gotoLocationItem.show(clickMenu.coord)
+                    globals.guidedControllerFlyView.confirmAction(globals.guidedControllerFlyView.actionPatron, clickMenu.coord, gotoLocationItem)
                 }
             }
 
