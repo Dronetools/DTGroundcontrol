@@ -110,8 +110,9 @@ Item {
 
     GuidedActionConfirm {
         anchors.margins:            _toolsMargin
-        anchors.top:                parent.top
+        //anchors.top:                parent.top
         anchors.horizontalCenter:   parent.horizontalCenter
+        anchors.verticalCenter:     parent.verticalCenter
         z:                          QGroundControl.zOrderTopMost
         guidedController:           _guidedController
         guidedValueSlider:          _guidedValueSlider
