@@ -57,7 +57,7 @@ FlightMap {
     property bool   _keepVehicleCentered:       pipMode ? true : false
     property bool   _saveZoomLevelSetting:      true
 
-    property var    _numberOfVehicles:                  QGroundControl.multiVehicleManager.vehicles.count
+    property int    _numberOfVehicles:          QGroundControl.multiVehicleManager.vehicles.count
 
     function _adjustMapZoomForPipMode() {
         _saveZoomLevelSetting = false

@@ -101,12 +101,13 @@ Rectangle {
     //-------------------------------------------------------------------------
     //-- Branding Logo
     Image {
+        id:                     bran
         anchors.right:          parent.right
         anchors.top:            parent.top
         anchors.bottom:         parent.bottom
         anchors.margins:        ScreenTools.defaultFontPixelHeight * 0.66
         //visible:                _activeVehicle && !_communicationLost && x > (toolsFlickable.x + toolsFlickable.contentWidth + ScreenTools.defaultFontPixelWidth)
-        visible:                 true
+        visible:                ScreenTools.isMobile? !(QGroundControl.multiVehicleManager.vehicles.count > 1) : true
         fillMode:               Image.PreserveAspectFit
         source:                 _outdoorPalette ? _brandImageOutdoor : _brandImageIndoor
         mipmap:                 true

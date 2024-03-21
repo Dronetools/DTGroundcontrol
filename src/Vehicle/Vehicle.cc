@@ -2657,7 +2657,8 @@ QString Vehicle::vehicleTypeName() const {
 QString Vehicle::_vehicleIdSpeech()
 {
     if (_toolbox->multiVehicleManager()->vehicles()->count() > 1) {
-        return tr("Vehicle %1 ").arg(id());
+        //return tr("Vehicle %1 ").arg(id());
+        return  tr("Vehículo %1 ").arg(id());
     } else {
         return QString();
     }

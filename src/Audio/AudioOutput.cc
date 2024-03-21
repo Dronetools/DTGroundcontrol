@@ -65,9 +65,10 @@ void AudioOutput::say(const QString& inText)
 }
 
 QString AudioOutput::traducir(QString text){
-    static QRegularExpression reFlightMode(R"(([\w\s]+)flight mode)");
+    //vehicle (\d+) ([\w\s]+) flight mode
+    static QRegularExpression reFlightMode(R"(^([\w\s]+)flight mode)");
+    static QRegularExpression reFlightModeMulti(R"(vehículo (\d+) ([\w\s]+) flight mode)");
     static QRegularExpression reInitFailed(R"(mode change to (\w+) failed: init failed)");
-    static QRegularExpression rePreArmFailsafe(R"(mode change to (\w+) failed: init failed)");
     QMap<QString,QString> diccionarioModos;
     diccionarioModos["guided"] = "guiado";
     diccionarioModos["stabilize"] = "estabilizado";
@@ -76,6 +77,8 @@ QString AudioOutput::traducir(QString text){
     QString textoTraducido = text.trimmed().toLower();
     QRegularExpressionMatch matchFlightMode = reFlightMode.match(textoTraducido);
     QRegularExpressionMatch matchInitFailed = reInitFailed.match(textoTraducido);
+    QRegularExpressionMatch matchFlightModeMulti = reFlightModeMulti.match(textoTraducido);
+    //QRegularExpressionMatch matchInitFailed = reInitFailed.match(textoTraducido);
     if(matchFlightMode.hasMatch()) {
         textoTraducido = "Modo de vuelo: ";
         QString modo = matchFlightMode.captured(1).trimmed();
@@ -86,6 +89,13 @@ QString AudioOutput::traducir(QString text){
         QString modo = matchInitFailed.captured(1).trimmed();
         if(diccionarioModos.contains(modo)) modo = diccionarioModos.value(modo);
         textoTraducido = textoTraducido.replace("$",modo);
+    }else if(matchFlightModeMulti.hasMatch()){
+        textoTraducido = "Modo de vuelo vehículo $: %";
+        QString idVehiculo = matchFlightModeMulti.captured(1).trimmed();
+        QString modo       = matchFlightModeMulti.captured(2).trimmed();
+        if(diccionarioModos.contains(modo)) modo = diccionarioModos.value(modo);
+        textoTraducido = textoTraducido.replace("$",idVehiculo);
+        textoTraducido = textoTraducido.replace("%",modo);
     }else if(textoTraducido.contains("no such mode")){
         textoTraducido = textoTraducido.replace("no such mode","No existe el modo");
     }else if(textoTraducido == "pre arm: battery 1 below minimum arming voltage" || textoTraducido == "arm: battery 1 below minimum arming voltage"){
