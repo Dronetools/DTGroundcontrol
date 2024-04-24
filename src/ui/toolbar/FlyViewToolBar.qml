@@ -164,6 +164,7 @@ Rectangle {
         width:          _activeVehicle ? _activeVehicle.loadProgress * parent.width : 0
         color:          qgcPal.colorGreen
         visible:        !largeProgressBar.visible
+        //visible:        false
     }
 
     // Large parameter download progress bar
@@ -179,6 +180,7 @@ Rectangle {
         property bool _initialDownloadComplete: _activeVehicle ? _activeVehicle.initialConnectComplete : true
         property bool _userHide:                false
         property bool _showLargeProgress:       !_initialDownloadComplete && !_userHide && qgcPal.globalTheme === QGCPalette.Light
+        //property bool _showLargeProgress:       false
 
         Connections {
             target:                 QGroundControl.multiVehicleManager

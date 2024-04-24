@@ -847,6 +847,32 @@ ApplicationWindow {
          }
     }
 
+
+    Repeater {
+        model: QGroundControl.multiVehicleManager.vehicles
+
+        Item {
+            property var vehicle: object
+            Connections{
+                target: vehicle
+                function onInitialConnectComplete(){
+                    console.log(`Nuevo vehiculo conexion completada:${vehicle}-${vehicle.id}`)
+                    // vehicle.parameterManager.refreshAllParameters()
+                    mainWindow.showMessageDialog("Parámetros",
+                        qsTr(`Desea realizar la carga de parámetros del vehículo ${vehicle.id}?`),
+                        Dialog.Yes | Dialog.No,
+                        function() { loadParameters(vehicle) })
+                }
+            }
+
+        }
+    }
+
+    function loadParameters(vehicle){
+        console.log("****** LLamando a load parameters ******** ")
+        vehicle.parameterManager.refreshAllParameters()
+    }
+
     UTMSPActivationStatusBar{
          id:                         activationbar
          activationStartTimestamp:  _startTimeStamp

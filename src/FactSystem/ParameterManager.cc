@@ -502,6 +502,9 @@ void ParameterManager::_ftpDownloadProgress(float progress)
 
 void ParameterManager::refreshAllParameters(uint8_t componentId)
 {
+    qDebug() << "LLamando a refresh All parameters ===============";
+
+
     WeakLinkInterfacePtr weakLink = _vehicle->vehicleLinkManager()->primaryLink();
 
     if (weakLink.expired()) {
@@ -509,6 +512,7 @@ void ParameterManager::refreshAllParameters(uint8_t componentId)
     }
 
     if (weakLink.lock()->linkConfiguration()->isHighLatency() || _logReplay) {
+        qDebug()<< "WEAK_ MAVLINK message request parameters list!!!!!!!!!!!";
         // These links don't load params
         _parametersReady = true;
         _missingParameters = true;
@@ -523,14 +527,18 @@ void ParameterManager::refreshAllParameters(uint8_t componentId)
     }
 
     if (_tryftp && (componentId == MAV_COMP_ID_ALL || componentId == MAV_COMP_ID_AUTOPILOT1)) {
+        qDebug()<< "IF_ MAVLINK message request parameters list!!!!!!!!!!!";
         FTPManager* ftpManager = _vehicle->ftpManager();
         connect(ftpManager, &FTPManager::downloadComplete, this, &ParameterManager::_ftpDownloadComplete);
         _waitingParamTimeoutTimer.stop();
         if (ftpManager->download(MAV_COMP_ID_AUTOPILOT1, "@PARAM/param.pck",
                                  QStandardPaths::writableLocation(QStandardPaths::TempLocation),
                                  "", false /* No filesize check */)) {
+        //if (false) {
+            qDebug()<< "IF_FTPMANAGER MAVLINK message request parameters list!!!!!!!!!!!";
             connect(ftpManager, &FTPManager::commandProgress, this, &ParameterManager::_ftpDownloadProgress);
         } else {
+            qDebug()<< "ELSE_FTPMANAGER MAVLINK message request parameters list!!!!!!!!!!!";
             qCWarning(ParameterManagerLog) << "ParameterManager::refreshallParameters FTPManager::download returned failure";
             disconnect(ftpManager, &FTPManager::downloadComplete, this, &ParameterManager::_ftpDownloadComplete);
         }
@@ -548,7 +556,7 @@ void ParameterManager::refreshAllParameters(uint8_t componentId)
         MAVLinkProtocol*        mavlink = qgcApp()->toolbox()->mavlinkProtocol();
         mavlink_message_t       msg;
         SharedLinkInterfacePtr  sharedLink = weakLink.lock();
-
+        qDebug()<< "Else_ MAVLINK message request parameters list!!!!!!!!!!!";
         mavlink_msg_param_request_list_pack_chan(mavlink->getSystemId(),
                                                  mavlink->getComponentId(),
                                                  sharedLink->mavlinkChannel(),

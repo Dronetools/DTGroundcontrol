@@ -23,7 +23,7 @@ const StateMachine::StateFn InitialConnectStateMachine::_rgStates[] = {
     InitialConnectStateMachine::_stateRequestProtocolVersion,
     InitialConnectStateMachine::_stateRequestStandardModes,
     InitialConnectStateMachine::_stateRequestCompInfo,
-    InitialConnectStateMachine::_stateRequestParameters,
+    //InitialConnectStateMachine::_stateRequestParameters,
     InitialConnectStateMachine::_stateRequestMission,
     InitialConnectStateMachine::_stateRequestGeoFence,
     InitialConnectStateMachine::_stateRequestRallyPoints,
@@ -34,8 +34,8 @@ const int InitialConnectStateMachine::_rgProgressWeights[] = {
     1, //_stateRequestCapabilities
     1, //_stateRequestProtocolVersion
     1, //_stateRequestStandardModes
-    5, //_stateRequestCompInfo
-    5, //_stateRequestParameters
+    10, //_stateRequestCompInfo
+    //5, //_stateRequestParameters
     2, //_stateRequestMission
     1, //_stateRequestGeoFence
     1, //_stateRequestRallyPoints
@@ -95,6 +95,7 @@ float InitialConnectStateMachine::_progress(float subProgress)
 
 void InitialConnectStateMachine::_stateRequestAutopilotVersion(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestAutopilotVersion()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
     SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
@@ -118,6 +119,7 @@ void InitialConnectStateMachine::_stateRequestAutopilotVersion(StateMachine* sta
 
 void InitialConnectStateMachine::_autopilotVersionRequestMessageHandler(void* resultHandlerData, MAV_RESULT commandResult, Vehicle::RequestMessageResultHandlerFailureCode_t failureCode, const mavlink_message_t& message)
 {
+    qDebug() << " Llamando a _autopilotVersionRequestMessageHandler()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(resultHandlerData);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
 
@@ -207,6 +209,7 @@ void InitialConnectStateMachine::_autopilotVersionRequestMessageHandler(void* re
 
 void InitialConnectStateMachine::_stateRequestProtocolVersion(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestProtocolVersion()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
     SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
@@ -233,6 +236,7 @@ void InitialConnectStateMachine::_stateRequestProtocolVersion(StateMachine* stat
 
 void InitialConnectStateMachine::_protocolVersionRequestMessageHandler(void* resultHandlerData, MAV_RESULT commandResult, Vehicle::RequestMessageResultHandlerFailureCode_t failureCode, const mavlink_message_t& message)
 {
+    qDebug() << " Llamando a _protocolVersionRequestMessageHandler()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(resultHandlerData);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
 
@@ -275,6 +279,7 @@ void InitialConnectStateMachine::_protocolVersionRequestMessageHandler(void* res
 }
 void InitialConnectStateMachine::_stateRequestCompInfo(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestCompInfo()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
 
@@ -286,6 +291,7 @@ void InitialConnectStateMachine::_stateRequestCompInfo(StateMachine* stateMachin
 
 void InitialConnectStateMachine::_stateRequestStandardModes(StateMachine *stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestStandardModes()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
 
@@ -297,6 +303,7 @@ void InitialConnectStateMachine::_stateRequestStandardModes(StateMachine *stateM
 
 void InitialConnectStateMachine::standardModesRequestCompleted()
 {
+    qDebug() << " Llamando a standardModesRequestCompleted()";
     disconnect(_vehicle->_standardModes, &StandardModes::requestCompleted, this,
                &InitialConnectStateMachine::standardModesRequestCompleted);
     advance();
@@ -304,6 +311,7 @@ void InitialConnectStateMachine::standardModesRequestCompleted()
 
 void InitialConnectStateMachine::_stateRequestCompInfoComplete(void* requestAllCompleteFnData)
 {
+    qDebug() << " Llamando a _stateRequestCompInfoComplete()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(requestAllCompleteFnData);
     disconnect(connectMachine->_vehicle->_componentInformationManager, &ComponentInformationManager::progressUpdate,
             connectMachine, &InitialConnectStateMachine::gotProgressUpdate);
@@ -311,19 +319,22 @@ void InitialConnectStateMachine::_stateRequestCompInfoComplete(void* requestAllC
     connectMachine->advance();
 }
 
-void InitialConnectStateMachine::_stateRequestParameters(StateMachine* stateMachine)
-{
-    InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
-    Vehicle*                    vehicle         = connectMachine->_vehicle;
+// void InitialConnectStateMachine::_stateRequestParameters(StateMachine* stateMachine)
+// {
+//     qDebug() << " Llamando a _stateRequestParameters()";
+//     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
+//     Vehicle*                    vehicle         = connectMachine->_vehicle;
 
-    qCDebug(InitialConnectStateMachineLog) << "_stateRequestParameters";
-    connect(vehicle->_parameterManager, &ParameterManager::loadProgressChanged, connectMachine,
-            &InitialConnectStateMachine::gotProgressUpdate);
-    vehicle->_parameterManager->refreshAllParameters();
-}
+//     qCDebug(InitialConnectStateMachineLog) << "_stateRequestParameters";
+//     connect(vehicle->_parameterManager, &ParameterManager::loadProgressChanged, connectMachine,
+//              &InitialConnectStateMachine::gotProgressUpdate);
+//     //qgcApp()->showConfirmarDialog();
+//     vehicle->_parameterManager->refreshAllParameters();
+// }
 
 void InitialConnectStateMachine::_stateRequestMission(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestMission()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
     SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
@@ -349,6 +360,7 @@ void InitialConnectStateMachine::_stateRequestMission(StateMachine* stateMachine
 
 void InitialConnectStateMachine::_stateRequestGeoFence(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestGeoFence()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
     SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
@@ -379,6 +391,7 @@ void InitialConnectStateMachine::_stateRequestGeoFence(StateMachine* stateMachin
 
 void InitialConnectStateMachine::_stateRequestRallyPoints(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateRequestRallyPoints()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
     SharedLinkInterfacePtr      sharedLink      = vehicle->vehicleLinkManager()->primaryLink().lock();
@@ -408,6 +421,7 @@ void InitialConnectStateMachine::_stateRequestRallyPoints(StateMachine* stateMac
 
 void InitialConnectStateMachine::_stateSignalInitialConnectComplete(StateMachine* stateMachine)
 {
+    qDebug() << " Llamando a _stateSignalInitialConnectComplete()";
     InitialConnectStateMachine* connectMachine  = static_cast<InitialConnectStateMachine*>(stateMachine);
     Vehicle*                    vehicle         = connectMachine->_vehicle;
 

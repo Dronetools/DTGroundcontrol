@@ -307,9 +307,10 @@ Rectangle {
                 id:                 parametersButton
                 setupIndicator:     false
                 buttonGroup:     setupButtonGroup
-                visible:            QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable &&
-                                    !QGroundControl.multiVehicleManager.activeVehicle.usingHighLatencyLink &&
-                                    _corePlugin.showAdvancedUI && advancedModeSetup
+                // visible:            QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable &&
+                //                     !QGroundControl.multiVehicleManager.activeVehicle.usingHighLatencyLink &&
+                //                     _corePlugin.showAdvancedUI && advancedModeSetup
+                visible:            advancedModeSetup
                 text:               qsTr("Parameters")
                 Layout.fillWidth:   true
                 onClicked:          showPanel(this, "SetupParameterEditor.qml")
