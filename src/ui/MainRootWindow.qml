@@ -691,7 +691,7 @@ ApplicationWindow {
     //-------------------------------------------------------------------------
     //
     function desactivaSeleccionModos(indicatorItem){
-        if(indicatorItem instanceof FlightModeIndicator) return false
+        if(indicatorItem instanceof FlightModeIndicator) return true
     }
     //-- Indicator Drawer
 
