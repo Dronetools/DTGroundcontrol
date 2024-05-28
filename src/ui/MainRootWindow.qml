@@ -36,7 +36,7 @@ ApplicationWindow {
     property bool   _utmspSendActTrigger
     property bool   _utmspStartTelemetry
 
-    property bool   showAdvancedSettings:   false
+    property bool   enableAdministratorMode:   true
 
     Component.onCompleted: {
         //-- Full screen on mobile or tiny screens

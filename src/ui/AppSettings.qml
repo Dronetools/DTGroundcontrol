@@ -32,7 +32,7 @@ Rectangle {
 
     property bool _commingFromRIDSettings:  false
 
-    property bool showAdvancedSettings:     false
+    property bool showAdvancedSettings:     mainWindow.enableAdministratorMode
 
     function showSettingsPage(settingsPage) {
         for (var i=0; i<buttonRepeater.count; i++) {
@@ -134,7 +134,6 @@ Rectangle {
 
             Button {
                 id:btnadv
-                property int numberClick: 0
                 padding:            ScreenTools.defaultFontPixelWidth / 2
                 autoExclusive:      true
                 Layout.fillWidth:   true
@@ -156,7 +155,6 @@ Rectangle {
                 onClicked: {
                     focus = true
                     btnadv.checked = true
-                    numberClick = numberClick + 1
                     if (rightPanel.source !== "/qml/PassModoAvanzado.qml") {
                         rightPanel.source = "/qml/PassModoAvanzado.qml"
                     }

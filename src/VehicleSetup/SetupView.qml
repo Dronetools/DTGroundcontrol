@@ -39,7 +39,7 @@ Rectangle {
     property bool   _fullParameterVehicleAvailable: QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable && !QGroundControl.multiVehicleManager.activeVehicle.parameterManager.missingParameters
     property var    _corePlugin:                    QGroundControl.corePlugin
 
-    property bool advancedModeSetup:                false
+    property bool advancedModeSetup:                mainWindow.enableAdministratorMode
     property  var sensorsAdvancedMode: 0
 
     onAdvancedModeSetupChanged: {

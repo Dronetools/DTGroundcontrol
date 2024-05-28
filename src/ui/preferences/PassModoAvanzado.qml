@@ -88,8 +88,6 @@ Rectangle {
                         enabled:    codigoField.text !== ""
 
                         onClicked: {
-                            console.log("Clicked")
-                            //console.log(`${btnadv.numberClick}`)
                             if(codigoField.text === codigoModoAvanzado){
                                 if(typeof(settingsView) !== "undefined"){
                                     settingsView.showAdvancedSettings = true
