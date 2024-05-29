@@ -76,12 +76,12 @@ Rectangle {
             Layout.preferredHeight: viewButtonRow.height
         }
 
-        QGCButton {
-            id:                 disconnectButton
-            text:               qsTr("Disconnect")
-            onClicked:          _activeVehicle.closeVehicle()
-            visible:            _activeVehicle && _communicationLost
-        }
+        // QGCButton {
+        //     id:                 disconnectButton
+        //     text:               qsTr("Disconnect")
+        //     onClicked:          _activeVehicle.closeVehicle()
+        //     visible:            _activeVehicle && _communicationLost
+        // }
     }
 
     QGCFlickable {
